@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Redis配置
  * 
  */
-@Configuration
-@EnableCaching
+//@Configuration
+//@EnableCaching
 public class RedisConfig {
 
 	/**
@@ -46,19 +46,19 @@ public class RedisConfig {
 		};
 	}
 
-	/**
-	 * 管理缓存
-	 * 
-	 * @param redisTemplate
-	 *            RedisTemplate
-	 * @return RedisCacheManager
-	 */
-	@Bean
-	@Primary
-	public RedisCacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
-		RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-		return rcm;
-	}
+//	/**
+//	 * 管理缓存
+//	 *
+//	 * @param redisTemplate
+//	 *            RedisTemplate
+//	 * @return RedisCacheManager
+//	 */
+//	@Bean
+//	@Primary
+//	public RedisCacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
+//		RedisCacheManager rcm = new RedisCacheManager();
+//		return rcm;
+//	}
 
 	/**
 	 * RedisTemplate配置
