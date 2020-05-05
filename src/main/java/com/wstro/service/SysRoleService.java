@@ -3,8 +3,8 @@ package com.wstro.service;
 import java.util.List;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.wstro.entity.SysRoleEntity;
 
 /**
@@ -36,7 +36,7 @@ public interface SysRoleService extends IService<SysRoleEntity> {
 	 * @param role
 	 *            SysRoleEntity
 	 */
-	void save(SysRoleEntity role);
+	boolean save(SysRoleEntity role);
 
 	/**
 	 * 更新角色

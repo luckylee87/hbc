@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.wstro.entity.SysUserEntity;
 import com.wstro.service.SysUserLoginLogService;
 import com.wstro.service.SysUserRoleService;
@@ -69,6 +69,29 @@ public class SysUserController extends AbstractController {
 				flag = false;
 			}
 		}
+
+//		long begin = System.currentTimeMillis();
+//		List<SysUserEntity> userEntityList = new ArrayList<>();
+////		for (int j = 0; j < 10; j++) {
+//			for (int i = 10; i < 100010; i++) {
+//				SysUserEntity user = new SysUserEntity();
+//				user.setPassword("11111");
+//				user.setCreateTime(System.currentTimeMillis()/1000);
+//				user.setAvatarUrl("url");
+//				user.setEmail("2323232323@qq.com");
+//				user.setUsername(i+"");
+//				user.setMobile("1235444444");
+//				user.setSex(1);
+//				user.setStatus(1);
+////				user.setUserId(123456L);
+//				userEntityList.add(user);
+//			}
+//		sysUserService.saveBatch(userEntityList);
+////		}
+//		long end = System.currentTimeMillis();
+//		System.out.println(String.format("总时间 %s s", (end - begin)/1000));
+
+
 		Page<SysUserEntity> adminList = sysUserService.queryListByPage(offset, limit, email, userName, sort, flag);
 		PageUtils pageUtil = new PageUtils(adminList.getRecords(), adminList.getTotal(), adminList.getSize(),
 				adminList.getCurrent());
@@ -91,7 +114,7 @@ public class SysUserController extends AbstractController {
 	@ResponseBody
 	@RequiresPermissions("sys:user:info")
 	public R info(@PathVariable("userId") Long userId) {
-		SysUserEntity user = sysUserService.selectById(userId);
+		SysUserEntity user = sysUserService.getById(userId);
 
 		// 获取用户所属的角色列表
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
@@ -136,7 +159,7 @@ public class SysUserController extends AbstractController {
 		if (roles.length < 1) {
 			return R.error("请为用户赋予至少一个权限");
 		}
-		SysUserEntity userentity = sysUserService.selectById(user.getUserId());
+		SysUserEntity userentity = sysUserService.getById(user.getUserId());
 		if (!user.getPassword().trim().equals("")) {
 			user.setPassword(user.getPassword());
 		}

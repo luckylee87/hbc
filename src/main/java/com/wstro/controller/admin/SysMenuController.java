@@ -103,7 +103,7 @@ public class SysMenuController extends AbstractController {
 	@RequestMapping("/info/{menuId}")
 	@RequiresPermissions("sys:menu:info")
 	public R info(@PathVariable("menuId") Long menuId) {
-		SysMenuEntity menu = sysMenuService.selectById(menuId);
+		SysMenuEntity menu = sysMenuService.getById(menuId);
 		return R.ok().put("menu", menu);
 	}
 
@@ -115,7 +115,7 @@ public class SysMenuController extends AbstractController {
 	public R save(SysMenuEntity menu) {
 		// 数据校验
 		verifyForm(menu);
-		if (sysMenuService.insert(menu)) {
+		if (sysMenuService.save(menu)) {
 			// 清空菜单缓存
 			String cacheName = EhCacheNames.menuCacheName + getAdminId();
 			ehcacheUtil.remove(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
@@ -208,7 +208,7 @@ public class SysMenuController extends AbstractController {
 		// 上级菜单类型
 		int parentType = MenuType.CATALOG.getValue();
 		if (menu.getType() != MenuType.CATALOG.getValue()) {
-			SysMenuEntity parentMenu = sysMenuService.selectById(menu.getParentId());
+			SysMenuEntity parentMenu = sysMenuService.getById(menu.getParentId());
 			if (null == parentMenu) {
 				throw new RRException("请先选择上级菜单");
 			}

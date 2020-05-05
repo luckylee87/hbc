@@ -6,15 +6,18 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+//import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+//import com.baomidou.mybatisplus.mapper.Wrapper;
+//import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+//import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wstro.dao.SysUserDao;
 import com.wstro.entity.SysUserEntity;
 import com.wstro.service.SysUserRoleService;
@@ -50,13 +53,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
 	@Override
 	@Transactional
-	public void save(SysUserEntity user) throws Exception {
+	public boolean save(SysUserEntity user) {
 		user.setCreateTime(DateUtils.getCurrentUnixTime());
 		// sha256加密
 		user.setPassword(new Sha256Hash(user.getPassword()).toHex());
 		baseMapper.insert(user);
 		// 保存用户与角色关系
 		sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+		return true;
 	}
 
 	@Override
@@ -91,9 +95,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 	@Override
 	public Page<SysUserEntity> queryListByPage(Integer offset, Integer limit, String email, String userName,
 			String sort, Boolean order) {
-		Wrapper<SysUserEntity> wrapper = new EntityWrapper<SysUserEntity>();
+		QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<SysUserEntity>();
 		if (StringUtils.isNoneBlank(sort) && null != order) {
-			wrapper.orderBy(sort, order);
+			wrapper.orderBy(Boolean.parseBoolean(sort), order);
 		}
 		if (StringUtils.isNoneBlank(userName)) {
 			wrapper.like("username", userName);
@@ -102,7 +106,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 			wrapper.like("email", email);
 		}
 		Page<SysUserEntity> page = new Page<>(offset, limit);
-		return this.selectPage(page, wrapper);
+		return this.page(page, wrapper);
 	}
 
 	@Override

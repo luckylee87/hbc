@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wstro.dao.SysUserRoleDao;
 import com.wstro.entity.SysUserRoleEntity;
 import com.wstro.service.SysUserRoleService;

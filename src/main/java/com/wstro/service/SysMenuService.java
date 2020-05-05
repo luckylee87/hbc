@@ -3,7 +3,7 @@ package com.wstro.service;
 import java.util.List;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.wstro.entity.SysMenuEntity;
 
 /**

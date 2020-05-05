@@ -20,7 +20,7 @@ public class SysUserServiceTest {
 	 */
 	// @Test
 	public void selectList() {
-		List<SysUserEntity> selectList = sysUserService.selectList(null);
+		List<SysUserEntity> selectList = sysUserService.list(null);
 		for (SysUserEntity sysUserEntity : selectList) {
 			System.out.println(sysUserEntity);
 		}

@@ -135,9 +135,9 @@ public class SysLoginController extends AbstractController {
 			return R.error("请输入密码！");
 		}
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-//		if (!captcha.equalsIgnoreCase(kaptcha)) {
-////			return R.error("验证码不正确");
-////		}
+		if (!captcha.equalsIgnoreCase(kaptcha)) {
+			return R.error("验证码不正确");
+		}
 		try {
 			Subject subject = ShiroUtils.getSubject();
 			// sha256加密
@@ -171,7 +171,7 @@ public class SysLoginController extends AbstractController {
 		entity.setOperatingSystem(HttpUtil.getUserOperatingSystem(request));
 		entity.setUserId(getAdminId());
 		entity.setLoginIp(ipAddress);
-		boolean insert = sysUserLoginLogService.insert(entity);
+		boolean insert = sysUserLoginLogService.save(entity);
 		if (!insert) { // 这里只能抛异常回滚事务
 			throw new RRException("系统异常，请联系管理员!");
 		}

@@ -2,8 +2,8 @@ package com.wstro.service;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.wstro.entity.SysUserEntity;
 
 /**
@@ -67,7 +67,7 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 *            SysUserEntity
 	 * @throws Exception
 	 */
-	void save(SysUserEntity user) throws Exception;
+	boolean save(SysUserEntity user);
 
 	/**
 	 * 修改用户
@@ -94,7 +94,7 @@ public interface SysUserService extends IService<SysUserEntity> {
 	 * @return Page<SysUserEntity>
 	 */
 	Page<SysUserEntity> queryListByPage(Integer offset, Integer limit, String email, String userName, String sort,
-			Boolean order);
+										Boolean order);
 
 	/**
 	 * 更新用户头像

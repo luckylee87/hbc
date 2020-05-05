@@ -9,10 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wstro.dao.SysRoleDao;
 import com.wstro.entity.SysRoleEntity;
 import com.wstro.service.SysRoleMenuService;
@@ -38,10 +37,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 
 	@Override
 	@Transactional
-	public void save(SysRoleEntity role) {
+	public boolean save(SysRoleEntity role) {
 		baseMapper.insert(role);
 		// 保存角色与菜单关系
 		sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
+		return true;
 	}
 
 	@Override
@@ -62,15 +62,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
 	@Override
 	public Page<SysRoleEntity> queryListByPage(Integer offset, Integer limit, String roleName, String sort,
 			Boolean order) {
-		Wrapper<SysRoleEntity> wrapper = new EntityWrapper<SysRoleEntity>();
+		QueryWrapper<SysRoleEntity> wrapper = new QueryWrapper<SysRoleEntity>();
 		if (StringUtils.isNoneBlank(sort) && null != order) {
-			wrapper.orderBy(sort, order);
+			wrapper.orderBy(Boolean.parseBoolean(sort), order);
 		}
 		if (StringUtils.isNoneBlank(roleName)) {
 			wrapper.like("role_name", roleName);
 		}
 		Page<SysRoleEntity> page = new Page<>(offset, limit);
-		return this.selectPage(page, wrapper);
+		return this.page(page, wrapper);
 	}
 
 }

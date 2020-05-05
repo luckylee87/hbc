@@ -32,11 +32,11 @@ public class PageUtils implements Serializable {
 	 * @param currPage
 	 *            当前页数
 	 */
-	public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
+	public PageUtils(List<?> list, long totalCount, long pageSize, long currPage) {
 		this.list = list;
-		this.totalCount = totalCount;
-		this.pageSize = pageSize;
-		this.currPage = currPage;
+		this.totalCount = (int) totalCount;
+		this.pageSize = (int) pageSize;
+		this.currPage = (int) currPage;
 		this.totalPage = (int) Math.ceil((double) totalCount / pageSize);
 	}
 

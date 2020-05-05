@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wstro.entity.SysRoleEntity;
 import com.wstro.service.SysRoleMenuService;
 import com.wstro.service.SysRoleService;
@@ -79,7 +79,7 @@ public class SysRoleController extends AbstractController {
 	@RequestMapping("/info/{roleId}")
 	@RequiresPermissions("sys:role:info")
 	public R info(@PathVariable("roleId") Long roleId) {
-		SysRoleEntity role = sysRoleService.selectById(roleId);
+		SysRoleEntity role = sysRoleService.getById(roleId);
 
 		// 查询角色对应的菜单
 		List<Long> menuIdList = sysRoleMenuService.queryMenuIdList(roleId);
