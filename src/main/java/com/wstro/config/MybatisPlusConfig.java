@@ -1,5 +1,6 @@
 package com.wstro.config;
 
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,4 +22,8 @@ public class MybatisPlusConfig {
 		return paginationInterceptor;
 	}
 
+	@Bean
+	public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+		return new OptimisticLockerInterceptor();
+	}
 }
