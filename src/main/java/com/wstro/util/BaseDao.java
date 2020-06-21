@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-//import com.baomidou.mybatisplus.mapper.BaseMapper;
+//import com.baomidou.mybatisplus.core.conditions.query.BaseMapper;
 
 /**
  * 因为MyBatisPlus的缘故，不能放在Dao对应的包里 基础Dao(还需在XML文件里，有对应的SQL语句)

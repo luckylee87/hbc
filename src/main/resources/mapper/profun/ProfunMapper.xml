@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.setting.ProfunMapper">
+
+    <!-- 通用查询映射结果 -->
+    <select id="selectByList" resultType="com.wstro.entity.setting.Profun">
+        SELECT
+            OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
+        FROM sso_pro_func
+        <where>
+            1=1
+            <if test="projectCode != null and projectCode != ''">
+                AND  PROJECT_CODE LIKE '%${projectCode}%'
+            </if>
+            <if test="projectName != null and projectName !=''">
+                AND PROJECT_NAME LIKE '%${projectName}%'
+            </if>
+            <if test="createName != null and createName !=''">
+                AND CREATE_NAME = #{createName}
+            </if>
+            <if test="createTimeStart != null and createTimeStart !=''">
+                AND CREATE_TIME <![CDATA[>=]]> '${createTimeStart}'
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd !=''">
+                AND CREATE_TIME <![CDATA[<=]]> '${createTimeEnd} 23:59:59'
+            </if>
+            <!--<if test="businessTypecd == null or businessTypecd ==''">-->
+                <!--AND A.BUSINESS_TYPECD IN ('D','E','F','H')  &lt;!&ndash; 业务类型 临时出入区有四种类型：D-设备检测，E-设备维修，F-模具外发，H-其他业务&ndash;&gt;-->
+            <!--</if>-->
+            GROUP BY PROJECT_CODE
+        </where>
+    </select>
+
+    <select id="selectByProjectCode" resultType="com.wstro.entity.setting.Profun" parameterType="java.lang.String">
+        SELECT
+        OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,FUNCTION_CODE AS FUNCTIONCODE,
+        FUNCTION_NAME AS FUNCTIONNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
+        FROM sso_pro_func
+        <where>
+            PROJECT_CODE = #{0}
+
+        </where>
+    </select>
+
+    <select id="selectOneByProjectCode" resultType="com.wstro.entity.setting.Profun" parameterType="java.lang.String">
+        SELECT
+        OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
+        FROM sso_pro_func
+        <where>
+            PROJECT_CODE = #{0} GROUP BY PROJECT_CODE
+
+        </where>
+    </select>
+
+    <!--查询所有项目与功能关系作为构建[系统管理员[授权树的数据（连接functionCode和projectCode，是为区分不同projectCode但functionCode相同导致构建树混乱的问题）-->
+    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="mysql">
+        SELECT
+            spf.PROJECT_CODE AS projectCode,
+            spf.PROJECT_NAME AS projectName,
+            CONCAT(spf.FUNCTION_CODE, '|', spf.PROJECT_CODE) AS functionCode,
+            spf.FUNCTION_NAME AS functionName,
+            (case
+                when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+                else CONCAT(spf.PARENT_FUNC_CODE, '|', spf.PROJECT_CODE)
+                end
+            ) AS parentCode,
+            ifnull(
+                spf.PARENT_FUNCTION_NAME,
+                spf.PROJECT_NAME
+            ) AS parentName,
+            sf.IS_AUTHORIZED AS isAuthorized
+        FROM
+            sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ORDER BY sf.ORDER_INDEX ASC
+    </select>
+    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="oracle">
+        SELECT
+        spf.PROJECT_CODE AS projectCode,
+        spf.PROJECT_NAME AS projectName,
+        spf.FUNCTION_CODE||'|'||spf.PROJECT_CODE AS functionCode,
+        spf.FUNCTION_NAME AS functionName,
+        (case
+        when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+        else spf.PARENT_FUNC_CODE||'|'||spf.PROJECT_CODE
+        end
+        ) AS parentCode,
+        nvl(
+        spf.PARENT_FUNCTION_NAME,
+        spf.PROJECT_NAME
+        ) AS parentName,
+        sf.IS_AUTHORIZED AS isAuthorized
+        FROM
+        sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ORDER BY sf.ORDER_INDEX ASC
+    </select>
+    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="sqlserver">
+        SELECT
+            spf.PROJECT_CODE AS projectCode,
+            spf.PROJECT_NAME AS projectName,
+            spf.FUNCTION_CODE+'|'+spf.PROJECT_CODE AS functionCode,
+            spf.FUNCTION_NAME AS functionName,
+            (case
+                when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+                else spf.PARENT_FUNC_CODE+'|'+spf.PROJECT_CODE
+                end
+            ) AS parentCode,
+            isnull(
+                spf.PARENT_FUNCTION_NAME,
+                spf.PROJECT_NAME
+            ) AS parentName,
+            sf.IS_AUTHORIZED AS isAuthorized
+        FROM
+            sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ORDER BY sf.ORDER_INDEX ASC
+    </select>
+
+    <!--查询所有项目与功能关系作为构建[机构管理员]授权树的数据（连接functionCode和projectCode，是为区分不同projectCode但functionCode相同导致构建树混乱的问题）-->
+    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="mysql">
+        SELECT DISTINCT TBL.functionCode, TBL.* FROM (
+        SELECT
+            spf.PROJECT_CODE AS projectCode,
+            spf.PROJECT_NAME AS projectName,
+            CONCAT(spf.FUNCTION_CODE, '|', spf.PROJECT_CODE) AS functionCode,
+            spf.FUNCTION_NAME AS functionName,
+            (case
+            when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+            else CONCAT(spf.PARENT_FUNC_CODE, '|', spf.PROJECT_CODE)
+            end) AS parentCode,
+            ifnull(
+            spf.PARENT_FUNCTION_NAME,
+            spf.PROJECT_NAME) AS parentName,
+            sf.IS_AUTHORIZED AS isAuthorized
+        FROM
+          sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN (SELECT a.FUNCTION_CODE AS FUNCTION_CODE, a.PROJECT_CODE AS PROJECT_CODE
+											FROM SSO_ROLE_FUNC a, SSO_ROLE_USER b
+												WHERE a.ROLE_OID = b.ROLE_OID and b.USER_NAME = #{userName}) srf ON srf.FUNCTION_CODE = spf.FUNCTION_CODE AND srf.PROJECT_CODE = spf.PROJECT_CODE
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ORDER BY sf.ORDER_INDEX ASC) TBL
+    </select>
+    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="oracle">
+        SELECT DISTINCT TBL.functionCode, TBL.* FROM (
+        SELECT
+            spf.PROJECT_CODE AS projectCode,
+            spf.PROJECT_NAME AS projectName,
+            spf.FUNCTION_CODE||'|'||spf.PROJECT_CODE AS functionCode,
+            spf.FUNCTION_NAME AS functionName,
+            (case
+            when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+            else spf.PARENT_FUNC_CODE||'|'||spf.PROJECT_CODE
+            end) AS parentCode,
+            nvl(
+            spf.PARENT_FUNCTION_NAME,
+            spf.PROJECT_NAME) AS parentName,
+            sf.IS_AUTHORIZED AS isAuthorized
+        FROM
+        sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN (SELECT a.FUNCTION_CODE AS FUNCTION_CODE, a.PROJECT_CODE AS PROJECT_CODE
+											FROM SSO_ROLE_FUNC a, SSO_ROLE_USER b
+												WHERE a.ROLE_OID = b.ROLE_OID and b.USER_NAME = #{userName}) srf ON srf.FUNCTION_CODE = spf.FUNCTION_CODE AND srf.PROJECT_CODE = spf.PROJECT_CODE
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ORDER BY sf.ORDER_INDEX ASC) TBL
+    </select>
+    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="sqlserver">
+        SELECT DISTINCT TBL.functionCode, TBL.* FROM (
+        SELECT
+            spf.PROJECT_CODE AS projectCode,
+            spf.PROJECT_NAME AS projectName,
+            spf.FUNCTION_CODE+'|'+spf.PROJECT_CODE AS functionCode,
+            spf.FUNCTION_NAME AS functionName,
+            (case
+            when spf.PARENT_FUNC_CODE is null then spf.PROJECT_CODE
+            else spf.PARENT_FUNC_CODE+'|'+spf.PROJECT_CODE
+            end) AS parentCode,
+            isnull(
+            spf.PARENT_FUNCTION_NAME,
+            spf.PROJECT_NAME) AS parentName,
+            sf.IS_AUTHORIZED AS isAuthorized,
+            sf.ORDER_INDEX AS orderIndex
+        FROM
+        sso_pro_func spf
+        INNER JOIN sso_function sf ON spf.FUNCTION_CODE = sf.CODE AND sf.IS_SHOW = 'Y'
+        INNER JOIN (SELECT a.FUNCTION_CODE AS FUNCTION_CODE, a.PROJECT_CODE AS PROJECT_CODE
+											FROM SSO_ROLE_FUNC a, SSO_ROLE_USER b
+												WHERE a.ROLE_OID = b.ROLE_OID and b.USER_NAME = #{userName}) srf ON srf.FUNCTION_CODE = spf.FUNCTION_CODE AND srf.PROJECT_CODE = spf.PROJECT_CODE
+        INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
+        ) TBL ORDER BY TBL.orderIndex ASC
+    </select>
+</mapper>

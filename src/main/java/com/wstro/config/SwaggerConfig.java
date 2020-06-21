@@ -7,6 +7,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 import com.google.common.base.Predicates;
 
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -29,12 +30,16 @@ public class SwaggerConfig {
 	@SuppressWarnings("unchecked")
 	@Bean
 	public Docket testApi() {
+//		Docket docket = new Docket(DocumentationType.SWAGGER_2).groupName("admin")
+//				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false).forCodeGeneration(true)
+//				.pathMapping("/")// base，最终调用接口后会和paths拼接在一起
+//				.select().paths(Predicates.or(PathSelectors.regex("/admin/.*")))// 过滤的接口
+//				.build().apiInfo(adminApiInfo());
 		Docket docket = new Docket(DocumentationType.SWAGGER_2).groupName("admin")
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false).forCodeGeneration(true)
 				.pathMapping("/")// base，最终调用接口后会和paths拼接在一起
-				.select().paths(Predicates.or(PathSelectors.regex("/admin/.*")))// 过滤的接口
+				.select().paths(PathSelectors.any()).apis(RequestHandlerSelectors.basePackage("com.wstro"))// 过滤的接口
 				.build().apiInfo(adminApiInfo());
-		;
 		return docket;
 	}
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>--SKY NET--</title>
+    <title>SKY NET</title>
     [#include "/admin/header.ftl"]
     <!-- iCheck -->
     <script src="${rc.contextPath}/statics/common/icheck/icheck.min.js"></script>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.system.SystemMenuMapper">
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		ID , PARENT_ID AS parentId, MENU_TYPE AS menuType, MENU_CODE AS menuCode, MENU_NAME AS menuName, SORT, HREF, ICON, STATUS, PERMISSION, CREATE_TIME AS createTime, CREATE_BY AS createBy, UPDATE_TIME AS updateTime, UPDATE_BY AS updateBy, REMARKS
+	</sql>
+	
+	<!-- 查询系统目录 -->
+	<select id="selectSystemMenu" resultType="SystemMenu" >
+        SELECT
+			<include refid="Base_Column_List"/>
+        FROM
+            system_menu
+	    <where>
+			<if test="status != null and status !=''">
+				and STATUS = #{status}
+			</if>
+			<if test="menuType != null and menuType !=''">
+				and MENU_TYPE = #{menuType}
+			</if>
+	    </where>
+	    ORDER 
+	    	BY SORT ASC
+    </select>
+	
+	<!-- 根据角色查询系统目录 -->
+	<select id="selectSystemMenuByRole" resultType="SystemMenu" >
+        SELECT
+			sm.ID , sm.PARENT_ID AS parentId, sm.MENU_TYPE AS menuType, sm.MENU_CODE AS menuCode, sm.MENU_NAME AS menuName, sm.SORT, sm.HREF, sm.ICON, sm.STATUS, sm.PERMISSION, sm.CREATE_TIME AS createTime, 
+			sm.CREATE_BY AS createBy, sm.UPDATE_TIME AS updateTime, sm.UPDATE_BY AS updateBy, sm.REMARKS
+        FROM
+            system_menu sm
+	    <where>
+	    	1=1
+			<if test="status != null and status !=''">
+				and sm.STATUS = #{status}
+			</if>
+			<if test="menuType != null and menuType !=''">
+				and sm.MENU_TYPE = #{menuType}
+			</if>
+			AND sm.id IN (SELECT distinct srm.MENU_ID FROM system_role_menu srm where srm.ROLE_ID in
+	        <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+	    		#{roleId}
+	    	</foreach>
+	    	)
+	    </where>
+	    ORDER 
+	    	BY SORT ASC
+    </select>
+</mapper>

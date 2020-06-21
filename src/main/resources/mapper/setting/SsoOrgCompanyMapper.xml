@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.setting.SsoOrgCompanyMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoOrgCompany">
+		<id column="OID" property="oid" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="CUS_CODE" property="cusCode" />
+		<result column="CIQ_CODE" property="ciqCode" />
+		<result column="CREDIT_CODE" property="creditCode" />
+		<result column="NAME" property="companyName" />
+		<result column="SHORT_NAME" property="shortName" />
+		<result column="ADDRESS" property="address" />
+		<result column="LINK_MAN" property="linkMan" />
+		<result column="LINK_TEL" property="linkTel" />
+		<result column="LINK_EMAIL" property="linkEmail" />
+		<result column="MASTER_CUSCD" property="masterCuscd" />
+		<result column="AREA_CODE" property="areaCode" />
+		<result column="MASTER_CIQCD" property="masterCiqcd" />
+		<result column="IS_VALID" property="isValid" />
+		<result column="NOTES" property="notes" />
+		<result column="OP_USER" property="opUser" />
+		<result column="OP_TIME" property="opTime" />
+	</resultMap>
+
+	<select id="selectByList" resultMap="BaseResultMap">
+        SELECT * from sso_org_company
+        <where>
+            1=1
+            <if test="orgCode != null and orgCode != ''">
+                AND  ORG_CODE LIKE '%${orgCode}%'
+            </if>
+            <if test="cusCode != null and cusCode !=''">
+                AND CUS_CODE LIKE '%${cusCode}%'
+            </if>
+            <if test="ciqCode != null and ciqCode !=''">
+                AND CIQ_CODE LIKE '%${ciqCode}%'
+            </if>
+            <if test="creditCode != null and creditCode !=''">
+                AND CREDIT_CODE LIKE '%${creditCode}%'
+            </if>
+            <if test="companyName != null and companyName !=''">
+            	AND NAME LIKE "%${companyName}%"           
+            </if>
+            <if test="shortName != null and shortName !=''">
+                AND SHORT_NAME LIKE '%${shortName}%'
+            </if>
+            <if test="address != null and address !=''">
+                AND ADDRESS LIKE '%${address}%'
+            </if>
+            <if test="linkMan != null and linkMan !=''">
+                AND LINK_MAN LIKE '%${linkMan}%'
+            </if>
+            <if test="masterCuscd != null and masterCuscd !=''">
+                AND MASTER_CUSCD LIKE '%${masterCuscd}%'
+            </if>
+            <if test="areaCode != null and areaCode !=''">
+                AND AREA_CODE LIKE '%${areaCode}%'
+            </if>
+        </where>
+    </select>
+    
+</mapper>

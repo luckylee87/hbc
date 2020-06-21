@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.setting.SsoRoleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoRole">
+		<id column="OID" property="oid" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="ROLE_TYPE" property="roleType" />
+		<result column="DESCRIPTION" property="description" />
+		<result column="ORDER_INDEX" property="orderIndex" />
+		<result column="IS_VALID" property="isValid" />
+		<result column="OP_USER" property="opUser" />
+		<result column="OP_TIME" property="opTime" />
+	</resultMap>
+	<sql id="Base_Column">
+		OID, ORG_CODE AS orgCode, ROLE_NAME AS roleName, ROLE_TYPE AS roleType,
+		DESCRIPTION, ORDER_INDEX AS orderIndex, IS_VALID AS isValid, OP_USER AS opUser, OP_TIME AS opTime
+	</sql>
+
+	<select id="selectByPage" resultType="com.wstro.entity.setting.SsoRole">
+		SELECT
+		<include refid="Base_Column" />
+		FROM sso_role
+		<where>
+			1=1
+			<if test="roleName != null and roleName != ''">
+				AND  ROLE_NAME LIKE '%${roleName}%'
+			</if>
+			<if test="isValid != null and isValid !=''">
+				AND IS_VALID = #{isValid}
+			</if>
+			<if test="orgCode != null and orgCode !=''">
+				AND ORG_CODE = #{orgCode}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND oid NOT IN(SELECT role_oid FROM sso_role_user WHERE user_name = #{userName})
+			</if>
+		</where>
+	</select>
+
+	<select id="selectById" resultType="com.wstro.entity.setting.SsoRole" parameterType="java.lang.String">
+		SELECT
+			sr.oid AS oid, sr.org_code AS orgCode, so.name AS orgName, sr.role_name AS roleName,
+			sr.role_type AS roleType, sr.description AS description, sr.order_index AS orderIndex,
+			sr.is_valid AS isValid, sr.op_user AS opUser, sr.op_time AS opTime
+		FROM sso_role sr
+		LEFT JOIN sso_organization so on sr.org_code = so.code
+		<where>
+			sr.oid = '${oid}'
+		</where>
+	</select>
+</mapper>

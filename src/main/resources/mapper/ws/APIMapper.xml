@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.ws.APIMapper">
+
+	<select id="selectProjectByCode" resultType="com.powerbridge.sso.dto.ProjectDto" parameterType="java.lang.String">
+		SELECT
+			CODE AS projectCode,
+			NAME AS projectName
+		FROM sso_project
+		WHERE CODE = #{projectCode}
+	</select>
+
+	<!--<select id="selectListByProjectCodes" resultType="com.powerbridge.sso.dto.ProjectDto" parameterType="java.lang.String">-->
+		<!--SELECT-->
+		<!--CODE AS projectCode,-->
+		<!--NAME AS projectName-->
+		<!--FROM sso_project-->
+		<!--WHERE FIND_IN_SET(CODE, REPLACE('${projectCodes}', '|', ','))-->
+	<!--</select>-->
+
+	<select id="selectFuncList" resultType="com.powerbridge.sso.dto.FunctionDto" parameterType="java.lang.String">
+		SELECT
+			DISTINCT srf.FUNCTION_CODE AS code,
+			sf.NAME AS name,
+			sf.page_url AS url,
+			sf.parent_code AS preCode,
+			sf.icon AS icon,
+			sf.ORDER_INDEX as orderIndex,
+			sf.GROUP_NO as groupNo,
+			sf.DESCRIPTION as description,
+			sf.EXTEND_COL1 as extendCol1,
+			sf.EXTEND_COL2 as extendCol2,
+			sf.EXTEND_COL3 as extendCol3,
+			sf.EXTEND_COL4 as extendCol4,
+			sf.type as type,
+			sf.flag as flag
+		FROM
+			sso_role_func srf
+		INNER JOIN sso_role_user sru ON srf.ROLE_OID = sru.ROLE_OID
+		AND sru.USER_NAME = #{userName} AND srf.project_code = #{projectCode}
+		INNER JOIN sso_function sf ON srf.function_code = sf.code
+		ORDER BY sf.ORDER_INDEX ASC
+	</select>
+
+</mapper>

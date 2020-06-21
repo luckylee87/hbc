@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.setting.ProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+
+
+    <select id="selectByList" resultType="com.wstro.entity.setting.SsoProject" parameterType="com.wstro.entity.setting.SsoProject">
+        SELECT
+            OID AS OID,CODE AS CODE,NAME AS NAME,DESCRIPTION AS DESCRIPTION,
+        ORDER_INDEX AS ORDERINDEX,IS_SHOW AS ISSHOW,IS_AUTHORIZED AS ISAUTHORIZED,
+        CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME,OP_USER AS OPUSER,OP_TIME AS OPTIME
+        FROM sso_project
+        <where>
+            1=1
+            <if test="code != null and code != ''">
+                AND  CODE LIKE '%${code}%'
+            </if>
+            <if test="name != null and name !=''">
+                AND NAME LIKE '%${name}%'
+            </if>
+            <if test="description != null and description !=''">
+                AND DESCRIPTION LIKE '%${description}%'
+            </if>
+            <if test="orderIndex != null and orderIndex !=''">
+                AND ORDER_INDEX LIKE '%${orderIndex}%'
+            </if>
+            <if test="isShow != null and isShow !=''">
+                AND IS_SHOW LIKE '%${createName}%'
+            </if>
+            <if test="isAuthorized != null and isAuthorized !=''">
+                AND IS_AUTHORIZED LIKE '%${isAuthorized}%'
+            </if>
+            <if test="createName != null and createName !=''">
+                AND CREATE_NAME LIKE '%${createName}%'
+            </if>
+            <if test="createTime != null and createTime !=''">
+                AND CREATE_TIME LIKE '%${createTime}%'
+            </if>
+            <if test="opUser != null and opUser !=''">
+                AND OP_USER LIKE '%${opUser}%'
+            </if>
+            <if test="opTime != null and opTime !=''">
+                AND OP_TIME LIKE '%${opTime}%'
+            </if>
+            <if test="createTimeStart != null and createTimeStart !=''">
+                AND CREATE_TIME <![CDATA[>=]]> '${createTimeStart}'
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd !=''">
+                AND CREATE_TIME <![CDATA[<=]]> '${createTimeEnd} 23:59:59'
+            </if>
+            <!--<if test="businessTypecd == null or businessTypecd ==''">-->
+                <!--AND A.BUSINESS_TYPECD IN ('D','E','F','H')  &lt;!&ndash; 业务类型 临时出入区有四种类型：D-设备检测，E-设备维修，F-模具外发，H-其他业务&ndash;&gt;-->
+            <!--</if>-->
+        </where>
+    </select>
+
+    <select id="selectByCode" resultType="com.wstro.entity.setting.SsoProject" parameterType="java.lang.String">
+        SELECT
+        OID AS OID,CODE AS CODE,NAME AS NAME,DESCRIPTION AS DESCRIPTION,
+        ORDER_INDEX AS ORDERINDEX,IS_SHOW AS ISSHOW,IS_AUTHORIZED AS ISAUTHORIZED,
+        CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME,OP_USER AS OPUSER,OP_TIME AS OPTIME
+        FROM sso_project
+        <where>
+            CODE = #{0}
+        </where>
+    </select>
+
+    <!--项目code和name作为功能code和name，用于构建系统管理员的树形结构的顶级节点-->
+    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode">
+        SELECT
+        '' AS projectCode, '' AS projectName,
+        CODE AS functionCode, NAME AS functionName,
+        '' AS parentCode, '' AS parentName,
+        IS_AUTHORIZED AS isAuthorized
+        FROM sso_project
+        WHERE IS_SHOW = 'Y'
+        ORDER BY ORDER_INDEX ASC
+    </select>
+    <select id="selectCodeByName" resultType="String">
+        SELECT
+			DISTINCT srf.project_code AS code
+		FROM
+			sso_role_func srf
+		INNER JOIN sso_role_user sru ON srf.ROLE_OID = sru.ROLE_OID
+		AND sru.USER_NAME = #{userName}
+		INNER JOIN sso_function sf ON srf.function_code = sf.code
+		ORDER BY sf.ORDER_INDEX ASC
+    </select>
+    <select id="selectRedisDropDown"  resultType="com.powerbridge.core.dto.PullDown">
+        SELECT
+          CODE AS id,
+          NAME AS text
+        FROM SSO_PROJECT
+  </select>
+</mapper>

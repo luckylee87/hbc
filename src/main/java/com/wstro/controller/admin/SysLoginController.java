@@ -134,10 +134,10 @@ public class SysLoginController extends AbstractController {
 		if (StringUtils.isBlank(password)) {
 			return R.error("请输入密码！");
 		}
-		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-		if (!captcha.equalsIgnoreCase(kaptcha)) {
-			return R.error("验证码不正确");
-		}
+//		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
+//		if (!captcha.equalsIgnoreCase(kaptcha)) {
+//			return R.error("验证码不正确");
+//		}
 		try {
 			Subject subject = ShiroUtils.getSubject();
 			// sha256加密

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.system.SystemPositionMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.wstro.entity.system.SystemPosition">
+		<id column="OID" property="oid" />
+		<result column="POS_CODE" property="posCode" />
+		<result column="POS_NAME" property="posName" />
+		<result column="REMARKS" property="remarks" />
+	</resultMap>
+	<select id="selectRedisDropDown"  resultType="com.wstro.entity.system.SystemPosition">
+		SELECT
+		POS_CODE AS id,
+		POS_NAME AS text
+		FROM SYSTEM_POSITION
+	</select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.powerbridge.sso.dao.setting.SsoProAuthMapper">
+
+    <!-- 通用查询映射结果 -->
+    <select id="selectByList" resultType="com.wstro.entity.setting.SsoProAuth">
+        SELECT  OID AS OID,CLIENT_ID AS CLIENTID,CLIENT_KEY AS CLIENTKEY,AUTH_PROCODE AS AUTHPROCODE,AUTH_PRONAME AS AUTHPRONAME,
+                IS_ENABLED AS ISENABLED
+        FROM sso_pro_auth
+        <where>
+
+            <if test="clientId != null and clientId !=''">
+                AND CLIENT_ID LIKE '%${clientId}%'
+            </if>
+            <if test="clientKey != null and clientKey !=''">
+                AND CLIENT_KEY LIKE '%${clientKey}%'
+            </if>
+            <if test="authProname != null and authProname !=''">
+                AND AUTH_PRONAME LIKE '%${authProname}%'
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

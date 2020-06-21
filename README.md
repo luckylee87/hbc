@@ -66,6 +66,7 @@ wstro
 - Eclipse、IDEA运行App.java，则可启动项目
 - 项目访问路径：http://localhost:8088/admin
 - 账号密码：admin/admin
+- swagger: http://localhost:8088/swagger-ui.html
 
 
 
