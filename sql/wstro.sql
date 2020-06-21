@@ -15,7 +15,7 @@ MySQL - 5.6.35-log : Database - wstro
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`hbc` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `wstro`;
+USE `hbc`;
 
 /*Table structure for table `sys_menu` */
 
