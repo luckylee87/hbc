@@ -298,6 +298,16 @@
 
 	<!-- 编译版本 -->
 	<build>
+		<resources>
+			<resource>
+				<directory>lib</directory>
+				<targetPath>BOOT-INF/lib/</targetPath>
+				<includes>
+					<include>**/*.jar</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -307,6 +317,8 @@
 					<encoding>${maven.compiler.encoding}</encoding>
 					<compilerArguments>
 						<!-- <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs> -->
+							<!-- 打包本地jar包 -->
+						<extdirs>${project.basedir}/lib</extdirs>
 					</compilerArguments>
 				</configuration>
 			</plugin>
@@ -339,8 +351,12 @@
 				<version>1.16.8.0</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
-		<finalName>wstro</finalName>
+		<finalName>hbc</finalName>
 	</build>
 
 	<!-- 阿里云maven仓库 -->
