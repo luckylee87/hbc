@@ -55,6 +55,11 @@ wstro
 
 
  **本地部署**
+ 
+ 把jar包加入本地maven库：
+ mvn install:install-file -Dfile=D:\workspace\hbc\lib\pbplatform-core-2.08.jar -DgroupId=pbplatform-core -DartifactId=pbplatform-core -Dversion=2.08 -Dpackaging=jar -DgeneratePom=true
+ mvn install:install-file -Dfile=D:\workspace\hbc\lib\ssoAuthUtils-1.0.2.jar -DgroupId=ssoAuthUtils -DartifactId=ssoAuthUtils -Dversion=1.0.2 -Dpackaging=jar -DgeneratePom=true
+ 
 - 通过git下载源码
 - 创建数据库wstro，数据库编码为UTF-8
 - 执行sql/wstro.sql文件，初始化数据

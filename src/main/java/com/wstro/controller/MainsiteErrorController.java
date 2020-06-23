@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 错误控制器
  * 
  */
-@Controller
+//@Controller
 public class MainsiteErrorController implements ErrorController {
 	private static final String ERROR_PATH = "/error";
 
