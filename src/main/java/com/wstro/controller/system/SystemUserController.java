@@ -331,14 +331,10 @@ public class SystemUserController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/loginuser", method = RequestMethod.GET)
-
-    public String loginUserInfo() {
-        String jsonStr = "";
+    public AjaxResult loginUserInfo() {
+        AjaxResult result = new AjaxResult(MessageConstants.SSO_STATUS_SUCCESS);
         Date now = new Date();
-        Map<String, Object> json = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
         SystemAuthorizingUser sysUser = SingletonLoginUtils.getSystemUser();
-
         if (sysUser != null){
             sysUser.setCreateTime(now);
             sysUser.setDecTime(now);
@@ -346,18 +342,11 @@ public class SystemUserController extends BaseController {
             sysUser.setCreateName(sysUser.getUserName());
             sysUser.setInputerCode(String.valueOf(sysUser.getUserId()));
             sysUser.setInputerName(sysUser.getUserName());
-
-            data.put("loginuser", sysUser);// 用户权限
-            json = this.transJson("1", "成功获取数据", data);
-            jsonStr = gson.toJson(json);
+            result.setData(sysUser);
         }else {
-            json = this.transJson("0", "用户信息过期", data);
-            jsonStr = gson.toJson(json);
+            result = new AjaxResult(MessageConstants.SSO_STATUS_FAIL);
         }
-
-
-
-        return jsonStr;
+        return result;
     }
 
 
