@@ -79,25 +79,25 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public AjaxResult login(HttpServletRequest request, @ModelAttribute("systemUser") SystemUser systemUser) {
-        if (!SingletonLoginUtils.validate(request)) {
-            return result(MessageConstants.SSO_STATUS_VERIFY_WRONG);
-        }
+//        if (!SingletonLoginUtils.validate(request)) {
+//            return result(MessageConstants.SSO_STATUS_VERIFY_WRONG);
+//        }
         // 服务器端，使用RSAUtils工具类对密文进行解密
-        String passWord = RSAUtils.decryptStringByJs(systemUser.getLoginPassword());
-//		String passWord = systemUser.getLoginPassword();
+//        String passWord = RSAUtils.decryptStringByJs(systemUser.getLoginPassword());
+		String passWord = systemUser.getLoginPassword();
 //        systemUser.setLoginPassword(MD5Utils.getMD5(passWord));
         try {
             String token = (String)getRequest().getSession().getAttribute(CommonConstants.SESSION_TOKEN);
             log.info("token: " + token);
             log.info("/system/login username: " + systemUser.getLoginName());
             //用户登录
-            JsonResultDto<SsoUserDto> result = SsoSystemUtils.login(token, systemUser.getLoginName(), passWord);
+            JsonResultDto<SsoUserDto> result = SsoSystemUtils.login("http://127.0.0.1:8088/api/login", token, systemUser.getLoginName(), passWord);
             if(result.getCode() != MessageEnum.API_STATUS_SUCCESS.getCode()) {
                 return new AjaxResult(result.getCode(), result.getMsg());
             }
             SsoUserDto userDto = (SsoUserDto) result.getData();
             //获取公司信息
-            JsonResultDto<SsoOrgCompanyDto> resultDto = SsoSystemUtils.getCompanyInfo(token, userDto.getUserName());
+            JsonResultDto<SsoOrgCompanyDto> resultDto = SsoSystemUtils.getCompanyInfo("http://127.0.0.1:8088/api/getCompanyInfo", token, userDto.getUserName());
             if(resultDto.getCode() != MessageEnum.API_STATUS_SUCCESS.getCode()) {
                 return new AjaxResult(resultDto.getCode(), resultDto.getMsg());
             }
