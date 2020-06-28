@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wstro.dao.SysMenuDao">
+<mapper namespace="com.dsg.dao.SysMenuDao">
 
-	<select id="queryListParentId" resultType="SysMenuEntity">
+	<select id="queryListParentId" resultType="com.dsg.entity.SysMenuEntity">
 		select * from sys_menu
 		where parent_id = #{parentId} order by order_num asc
 	</select>
 
-	<select id="queryNotButtonList" resultType="SysMenuEntity">
+	<select id="queryNotButtonList" resultType="com.dsg.entity.SysMenuEntity">
 		select * from
 		sys_menu where type != 2 order by order_num asc
 	</select>
 
-	<select id="queryList" resultType="SysMenuEntity">
+	<select id="queryList" resultType="com.dsg.entity.SysMenuEntity">
 		select m.*,(select p.name from sys_menu p where p.menu_id =
 		m.parent_id) as parentName
 		from sys_menu m

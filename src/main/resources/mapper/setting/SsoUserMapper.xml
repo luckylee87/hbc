@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoUserMapper">
+<mapper namespace="com.dsg.dao.setting.SsoUserMapper">
 
     <!-- 通用查询映射结果 -->
 
 
-    <select id="selectByList" resultType="com.wstro.entity.setting.SsoUser">
+    <select id="selectByList" resultType="com.dsg.entity.setting.SsoUser">
         SELECT  A.OID AS oid,A.ORG_CODE AS orgCode,A.USER_NAME AS userName,A.USER_PWD AS userPwd,
         A.USER_TYPE AS userType,A.TRUE_NAME AS trueName,A.ORDER_INDEX AS orderIndex,A.BLS_USER_TYPE AS blsUserType,
         A.IC_CODE AS icCode,A.CREDENTIALS_TYPE AS credentialsType,A.CREDENTIALS_NUM AS credentialsNum,A.TEL_NUM AS telNum,
@@ -26,7 +26,7 @@
         </where>
     </select>
 
- <select id="login" resultType="com.wstro.entity.setting.SsoUser">
+ <select id="login" resultType="com.dsg.entity.setting.SsoUser">
      SELECT  OID AS OID,ORG_CODE AS ORGCODE,USER_NAME AS USERNAME,USER_PWD AS USERPWD,
      USER_TYPE AS USERTYPE,TRUE_NAME AS TRUENAME,ORDER_INDEX AS ORDERINDEX,
      IC_CODE AS ICCODE,CREDENTIALS_TYPE AS CREDENTIALSTYPE,CREDENTIALS_NUM AS CREDENTIALSNUM,TEL_NUM AS TELNUM,

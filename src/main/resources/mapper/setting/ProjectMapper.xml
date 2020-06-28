@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.ProjectMapper">
+<mapper namespace="com.dsg.dao.setting.ProjectMapper">
 
     <!-- 通用查询映射结果 -->
 
 
-    <select id="selectByList" resultType="com.wstro.entity.setting.SsoProject" parameterType="com.wstro.entity.setting.SsoProject">
+    <select id="selectByList" resultType="com.dsg.entity.setting.SsoProject" parameterType="com.dsg.entity.setting.SsoProject">
         SELECT
             OID AS OID,CODE AS CODE,NAME AS NAME,DESCRIPTION AS DESCRIPTION,
         ORDER_INDEX AS ORDERINDEX,IS_SHOW AS ISSHOW,IS_AUTHORIZED AS ISAUTHORIZED,
@@ -55,7 +55,7 @@
         </where>
     </select>
 
-    <select id="selectByCode" resultType="com.wstro.entity.setting.SsoProject" parameterType="java.lang.String">
+    <select id="selectByCode" resultType="com.dsg.entity.setting.SsoProject" parameterType="java.lang.String">
         SELECT
         OID AS OID,CODE AS CODE,NAME AS NAME,DESCRIPTION AS DESCRIPTION,
         ORDER_INDEX AS ORDERINDEX,IS_SHOW AS ISSHOW,IS_AUTHORIZED AS ISAUTHORIZED,
@@ -67,7 +67,7 @@
     </select>
 
     <!--项目code和name作为功能code和name，用于构建系统管理员的树形结构的顶级节点-->
-    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode">
+    <select id="selectAllForSYSAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode">
         SELECT
         '' AS projectCode, '' AS projectName,
         CODE AS functionCode, NAME AS functionName,

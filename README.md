@@ -129,7 +129,7 @@ wstro
 
 开发者:
 	
-	调试直接运行  com.wstro.App.java Run As  java Application
+	调试直接运行  com.dsg.App.java Run As  java Application
 	
 	打包:
 		mvn运行  mvn clean package spring-boot:repackage

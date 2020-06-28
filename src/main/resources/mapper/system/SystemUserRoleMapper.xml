@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.system.SystemUserRoleMapper">
+<mapper namespace="com.dsg.dao.system.SystemUserRoleMapper">
 
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
@@ -8,7 +8,7 @@
 	</sql>
 	
 	<!-- 通过账号ID查找角色列表 -->
-	<select id="selectRoleListByAccountId" resultType="SystemUserRole" >
+	<select id="selectRoleListByAccountId" resultType="com.dsg.entity.system.SystemUserRole" >
         SELECT
             u.ID, 
             u.ROLE_ID AS roleId, 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.SysUserDao">
+<mapper namespace="com.dsg.dao.SysUserDao">
 
 	<!-- 查询用户的所有权限 -->
 	<select id="queryAllPerms" resultType="String">
@@ -22,7 +22,7 @@
 		#{userId}
 	</select>
 
-	<select id="queryByUserName" resultType="SysUserEntity">
+	<select id="queryByUserName" resultType="com.dsg.entity.SysUserEntity">
 		select * from sys_user
 		where username = #{username}
 	</select>
@@ -48,7 +48,7 @@
 		</foreach>
 	</delete>
 
-	<update id="updateUser" parameterType="SysUserEntity">
+	<update id="updateUser" parameterType="com.dsg.entity.SysUserEntity">
 		update sys_user
 		<set>
 			<if test="username != null">`username` = #{username}, </if>
@@ -65,7 +65,7 @@
 		where user_id = #{userId}
 	</update>
 	
-	<update id="updateAvatar" parameterType="SysUserEntity">
+	<update id="updateAvatar" parameterType="com.dsg.entity.SysUserEntity">
 		update sys_user
 		<set>
 			<if test="avatarUrl != null">`avatar_url` = #{avatarUrl}, </if>

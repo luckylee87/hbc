@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hbc</groupId>
-	<artifactId>hbc</artifactId>
+	<groupId>com.dsg</groupId>
+	<artifactId>erp</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<name>hbc</name>
+	<name>erp</name>
 	<url>http://maven.apache.org</url>
 
 
@@ -374,7 +374,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>hbc</finalName>
+		<finalName>erp</finalName>
 	</build>
 
 	<!-- 阿里云maven仓库 -->

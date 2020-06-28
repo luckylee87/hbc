@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoRoleMapper">
+<mapper namespace="com.dsg.dao.setting.SsoRoleMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoRole">
+	<resultMap id="BaseResultMap" type="com.dsg.entity.setting.SsoRole">
 		<id column="OID" property="oid" />
 		<result column="ORG_CODE" property="orgCode" />
 		<result column="ROLE_NAME" property="roleName" />
@@ -19,7 +19,7 @@
 		DESCRIPTION, ORDER_INDEX AS orderIndex, IS_VALID AS isValid, OP_USER AS opUser, OP_TIME AS opTime
 	</sql>
 
-	<select id="selectByPage" resultType="com.wstro.entity.setting.SsoRole">
+	<select id="selectByPage" resultType="com.dsg.entity.setting.SsoRole">
 		SELECT
 		<include refid="Base_Column" />
 		FROM sso_role
@@ -40,7 +40,7 @@
 		</where>
 	</select>
 
-	<select id="selectById" resultType="com.wstro.entity.setting.SsoRole" parameterType="java.lang.String">
+	<select id="selectById" resultType="com.dsg.entity.setting.SsoRole" parameterType="java.lang.String">
 		SELECT
 			sr.oid AS oid, sr.org_code AS orgCode, so.name AS orgName, sr.role_name AS roleName,
 			sr.role_type AS roleType, sr.description AS description, sr.order_index AS orderIndex,

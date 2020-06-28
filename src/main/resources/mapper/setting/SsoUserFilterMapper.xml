@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoUserFilterMapper">
+<mapper namespace="com.dsg.dao.setting.SsoUserFilterMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoUserFilter">
+	<resultMap id="BaseResultMap" type="com.dsg.entity.setting.SsoUserFilter">
 		<id column="OID" property="oid" />
 		<result column="USER_NAME" property="userName" />
 		<result column="IS_NEED_FILTER" property="isNeedFilter" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoRoleFuncMapper">
+<mapper namespace="com.dsg.dao.setting.SsoRoleFuncMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoRoleFunc">
+	<resultMap id="BaseResultMap" type="com.dsg.entity.setting.SsoRoleFunc">
 		<id column="OID" property="oid" />
 		<result column="ROLE_OID" property="roleOid" />
 		<result column="ROLE_NAME" property="roleName" />
@@ -16,7 +16,7 @@
 		<result column="ORG_CODE" property="orgCode" />
 	</resultMap>
 
-	<!--<select id="selectAuthTreeAll" resultType="com.wstro.entity.setting.AuthorizeTreeMode">
+	<!--<select id="selectAuthTreeAll" resultType="com.dsgntity.setting.AuthorizeTreeMode">
 		SELECT
 		PROJECT_CODE AS projectCode, PROJECT_NAME AS projectName,
 		FUNCTION_CODE AS functionCode, FUNCTION_NAME AS functionName,
@@ -25,7 +25,7 @@
 	</select>
 
 	&lt;!&ndash;项目code和name作为功能code和name，用于构建树形结构的顶级节点&ndash;&gt;
-	<select id="selectProjectAll" resultType="com.wstro.entity.setting.AuthorizeTreeMode">
+	<select id="selectProjectAll" resultType="com.dsgntity.setting.AuthorizeTreeMode">
 		SELECT
 		'' AS projectCode, '' AS projectName,
 		CODE AS functionCode, NAME AS functionName,
@@ -34,7 +34,7 @@
 	</select>-->
 
 	<!--项目code和name作为功能code和name，用于构建机构管理员的树形结构的顶级节点-->
-	<select id="selectProjectForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode">
+	<select id="selectProjectForORGAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode">
 		SELECT
 			'' AS projectCode, '' AS projectName,
 			sp.CODE AS functionCode, sp.NAME AS functionName,

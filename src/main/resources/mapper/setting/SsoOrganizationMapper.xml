@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoOrganizationMapper">
+<mapper namespace="com.dsg.dao.setting.SsoOrganizationMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.wstro.entity.setting.SsoOrganization">
+	<resultMap id="BaseResultMap" type="com.dsg.entity.setting.SsoOrganization">
 		<id column="OID" property="oid" />
 		<result column="CODE" property="code" />
 		<result column="NAME" property="name" />
@@ -14,7 +14,7 @@
 		<result column="OP_TIME" property="opTime" />
 	</resultMap>
 
-	<resultMap id="treeResultMap" type="com.wstro.entity.setting.SsoOrganization">
+	<resultMap id="treeResultMap" type="com.dsg.entity.setting.SsoOrganization">
 		<result column="orgCode" property="code" />
 		<result column="orgName" property="name" />
 		<result column="parentCode" property="parentCode" />
@@ -29,7 +29,7 @@
 			</foreach>
 	</select>
 
-	<select id="getOrgTree" resultType="com.wstro.entity.setting.SsoOrganization" parameterType="com.wstro.entity.setting.SsoOrganization">
+	<select id="getOrgTree" resultType="com.dsg.entity.setting.SsoOrganization" parameterType="com.dsg.entity.setting.SsoOrganization">
 		SELECT
 			A.OID,A.CODE,A.NAME,B.PARENT_CODE AS PARENTCODE,B.ORDER_INDEX AS ORDERINDEX
 		FROM (

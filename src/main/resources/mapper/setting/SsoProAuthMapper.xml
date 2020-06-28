@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.SsoProAuthMapper">
+<mapper namespace="com.dsg.dao.setting.SsoProAuthMapper">
 
     <!-- 通用查询映射结果 -->
-    <select id="selectByList" resultType="com.wstro.entity.setting.SsoProAuth">
+    <select id="selectByList" resultType="com.dsg.entity.setting.SsoProAuth">
         SELECT  OID AS OID,CLIENT_ID AS CLIENTID,CLIENT_KEY AS CLIENTKEY,AUTH_PROCODE AS AUTHPROCODE,AUTH_PRONAME AS AUTHPRONAME,
                 IS_ENABLED AS ISENABLED
         FROM sso_pro_auth

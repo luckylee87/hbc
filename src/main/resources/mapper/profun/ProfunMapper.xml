@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.setting.ProfunMapper">
+<mapper namespace="com.dsg.dao.setting.ProfunMapper">
 
     <!-- 通用查询映射结果 -->
-    <select id="selectByList" resultType="com.wstro.entity.setting.Profun">
+    <select id="selectByList" resultType="com.dsg.entity.setting.Profun">
         SELECT
             OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
         FROM sso_pro_func
@@ -31,7 +31,7 @@
         </where>
     </select>
 
-    <select id="selectByProjectCode" resultType="com.wstro.entity.setting.Profun" parameterType="java.lang.String">
+    <select id="selectByProjectCode" resultType="com.dsg.entity.setting.Profun" parameterType="java.lang.String">
         SELECT
         OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,FUNCTION_CODE AS FUNCTIONCODE,
         FUNCTION_NAME AS FUNCTIONNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
@@ -42,7 +42,7 @@
         </where>
     </select>
 
-    <select id="selectOneByProjectCode" resultType="com.wstro.entity.setting.Profun" parameterType="java.lang.String">
+    <select id="selectOneByProjectCode" resultType="com.dsg.entity.setting.Profun" parameterType="java.lang.String">
         SELECT
         OID AS OID,PROJECT_CODE AS PROJECTCODE,PROJECT_NAME AS PROJECTNAME,CREATE_NAME AS CREATENAME,CREATE_TIME AS CREATETIME
         FROM sso_pro_func
@@ -53,7 +53,7 @@
     </select>
 
     <!--查询所有项目与功能关系作为构建[系统管理员[授权树的数据（连接functionCode和projectCode，是为区分不同projectCode但functionCode相同导致构建树混乱的问题）-->
-    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="mysql">
+    <select id="selectAllForSYSAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" databaseId="mysql">
         SELECT
             spf.PROJECT_CODE AS projectCode,
             spf.PROJECT_NAME AS projectName,
@@ -75,7 +75,7 @@
         INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
         ORDER BY sf.ORDER_INDEX ASC
     </select>
-    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="oracle">
+    <select id="selectAllForSYSAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" databaseId="oracle">
         SELECT
         spf.PROJECT_CODE AS projectCode,
         spf.PROJECT_NAME AS projectName,
@@ -97,7 +97,7 @@
         INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
         ORDER BY sf.ORDER_INDEX ASC
     </select>
-    <select id="selectAllForSYSAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" databaseId="sqlserver">
+    <select id="selectAllForSYSAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" databaseId="sqlserver">
         SELECT
             spf.PROJECT_CODE AS projectCode,
             spf.PROJECT_NAME AS projectName,
@@ -121,7 +121,7 @@
     </select>
 
     <!--查询所有项目与功能关系作为构建[机构管理员]授权树的数据（连接functionCode和projectCode，是为区分不同projectCode但functionCode相同导致构建树混乱的问题）-->
-    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="mysql">
+    <select id="selectAllForORGAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="mysql">
         SELECT DISTINCT TBL.functionCode, TBL.* FROM (
         SELECT
             spf.PROJECT_CODE AS projectCode,
@@ -145,7 +145,7 @@
         INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
         ORDER BY sf.ORDER_INDEX ASC) TBL
     </select>
-    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="oracle">
+    <select id="selectAllForORGAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="oracle">
         SELECT DISTINCT TBL.functionCode, TBL.* FROM (
         SELECT
             spf.PROJECT_CODE AS projectCode,
@@ -169,7 +169,7 @@
         INNER JOIN sso_project sp ON sp.CODE = spf.PROJECT_CODE AND sp.IS_SHOW = 'Y'
         ORDER BY sf.ORDER_INDEX ASC) TBL
     </select>
-    <select id="selectAllForORGAuthTree" resultType="com.wstro.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="sqlserver">
+    <select id="selectAllForORGAuthTree" resultType="com.dsg.entity.setting.AuthorizeTreeMode" parameterType="java.lang.String" databaseId="sqlserver">
         SELECT DISTINCT TBL.functionCode, TBL.* FROM (
         SELECT
             spf.PROJECT_CODE AS projectCode,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wstro.dao.system.SystemMenuMapper">
+<mapper namespace="com.dsg.dao.system.SystemMenuMapper">
 
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
@@ -8,7 +8,7 @@
 	</sql>
 	
 	<!-- 查询系统目录 -->
-	<select id="selectSystemMenu" resultType="SystemMenu" >
+	<select id="selectSystemMenu" resultType="com.dsg.entity.system.SystemMenu" >
         SELECT
 			<include refid="Base_Column_List"/>
         FROM
@@ -26,7 +26,7 @@
     </select>
 	
 	<!-- 根据角色查询系统目录 -->
-	<select id="selectSystemMenuByRole" resultType="SystemMenu" >
+	<select id="selectSystemMenuByRole" resultType="com.dsg.entity.system.SystemMenu" >
         SELECT
 			sm.ID , sm.PARENT_ID AS parentId, sm.MENU_TYPE AS menuType, sm.MENU_CODE AS menuCode, sm.MENU_NAME AS menuName, sm.SORT, sm.HREF, sm.ICON, sm.STATUS, sm.PERMISSION, sm.CREATE_TIME AS createTime, 
 			sm.CREATE_BY AS createBy, sm.UPDATE_TIME AS updateTime, sm.UPDATE_BY AS updateBy, sm.REMARKS
